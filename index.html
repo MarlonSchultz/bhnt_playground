@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+<a href="#top" class="skip-link">Skip to main content</a>
 <div class="bg-fx" aria-hidden="true">
   <div class="bg-glow"></div>
   <div class="bg-glow amber"></div>
@@ -19,28 +20,28 @@
 <div class="vignette" aria-hidden="true"></div>
 
 <!-- status bar -->
-<div class="statusbar">
+<div class="statusbar" role="banner" aria-label="Station status">
   <div class="wrap">
-    <span><span class="live-dot"></span><b>STATION ONLINE</b></span>
-    <span>52.5099°N · 13.4203°E</span>
-    <span>BERLIN / SOL-3</span>
+    <span><span class="live-dot" aria-hidden="true"></span><b>STATION ONLINE</b></span>
+    <span aria-hidden="true">52.5099°N · 13.4203°E</span>
+    <span aria-hidden="true">BERLIN / SOL-3</span>
     <div class="sb-right">
       <span>EST. 2012</span>
-      <span id="sb-clock">--:--:-- CET</span>
+      <span id="sb-clock" aria-label="Current Berlin time">--:--:-- CET</span>
     </div>
   </div>
 </div>
 
 <!-- nav -->
-<nav class="hud">
+<nav class="hud" aria-label="Main navigation">
   <div class="wrap">
-    <a class="brand" href="#top">
-      <span class="brand-mark">
-        <svg viewBox="0 0 40 40" fill="none">
-          <circle cx="20" cy="20" r="18" stroke="#4fe0c8" stroke-width="1.4" opacity=".5"/>
-          <circle cx="20" cy="20" r="11" stroke="#4fe0c8" stroke-width="1.4"/>
-          <circle cx="20" cy="20" r="3.4" fill="#4fe0c8"/>
-          <path d="M20 2v8M20 30v8M2 20h8M30 20h8" stroke="#ffb43d" stroke-width="1.4"/>
+    <a class="brand" href="#top" aria-label="Berlin Hack &amp; Tell — back to top">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 40 40" fill="none" aria-hidden="true" focusable="false">
+          <circle cx="20" cy="20" r="18" stroke="#28d8b0" stroke-width="1.4" opacity=".5"/>
+          <circle cx="20" cy="20" r="11" stroke="#28d8b0" stroke-width="1.4"/>
+          <circle cx="20" cy="20" r="3.4" fill="#28d8b0"/>
+          <path d="M20 2v8M20 30v8M2 20h8M30 20h8" stroke="#ffba44" stroke-width="1.4"/>
         </svg>
       </span>
       <span class="brand-txt">BHNT<small>HACK &amp; TELL</small></span>
@@ -65,7 +66,7 @@
           <span class="path mono">bhnt@c-base: ~/show-and-tell</span>
         </div>
         <div class="console-body">
-          <div class="boot mono" id="boot"></div>
+          <div class="boot mono" id="boot" aria-hidden="true"></div>
           <h1 class="hero-title">Berlin Hack <span class="amp">&amp;</span> Tell</h1>
           <p class="hero-sub">Eight hackers. Five minutes each. One crashed space station beneath Berlin. A monthly(ish) show-and-tell of half-finished side projects, glorious hacks and beautiful disasters at <a href="https://c-base.org" target="_blank" rel="noopener">c-base</a> — every(ish) last Tuesday.</p>
           <div class="hero-cta">
@@ -77,12 +78,12 @@
 
       <!-- station viewport: live 3D core -->
       <div class="frame viewport">
-        <canvas id="station-canvas" class="vp-canvas"></canvas>
+        <canvas id="station-canvas" class="vp-canvas" aria-hidden="true"></canvas>
         <div class="vp-reticle" aria-hidden="true"></div>
         <div class="vp-cross" aria-hidden="true"></div>
         <div class="vp-bar">
           <span class="tag">// station core</span>
-          <span><span class="live-dot"></span>TRACKING</span>
+          <span><span class="live-dot" aria-hidden="true"></span>TRACKING</span>
         </div>
         <div class="vp-readout">
           STRUCTURE&nbsp;&nbsp;<b>c-base</b><br/>
@@ -172,13 +173,16 @@
       </div>
       <div class="archive-head">
         <div class="search">
-          <span class="si">⌕</span>
-          <input id="search" type="text" placeholder="search the log…  e.g. 'hackgpt', 2019, #100" autocomplete="off" spellcheck="false" />
+          <label for="search" class="visually-hidden">Search events by name, number, or year</label>
+          <span class="si" aria-hidden="true">⌕</span>
+          <input id="search" type="search" placeholder="search the log…  e.g. 'hackgpt', 2019, #100" autocomplete="off" spellcheck="false" />
         </div>
-        <div class="count-readout"><b id="rc">000</b> / <span id="rc-total">000</span> transmissions</div>
+        <div class="count-readout" role="status" aria-live="polite" aria-atomic="true">
+          <b id="rc">000</b> / <span id="rc-total">000</span> transmissions
+        </div>
       </div>
       <div class="frame">
-        <div class="log" id="log"></div>
+        <div class="log" id="log" aria-live="polite" aria-relevant="additions removals" aria-label="Event archive results"></div>
       </div>
     </div>
   </section>
@@ -188,28 +192,28 @@
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-brand">
-        <a class="brand" href="#top" style="margin-bottom:0">
-          <span class="brand-mark">
-            <svg viewBox="0 0 40 40" fill="none">
-              <circle cx="20" cy="20" r="18" stroke="#4fe0c8" stroke-width="1.4" opacity=".5"/>
-              <circle cx="20" cy="20" r="11" stroke="#4fe0c8" stroke-width="1.4"/>
-              <circle cx="20" cy="20" r="3.4" fill="#4fe0c8"/>
-              <path d="M20 2v8M20 30v8M2 20h8M30 20h8" stroke="#ffb43d" stroke-width="1.4"/>
+        <a class="brand" href="#top" aria-label="Berlin Hack &amp; Tell — back to top" style="margin-bottom:0">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 40 40" fill="none" aria-hidden="true" focusable="false">
+              <circle cx="20" cy="20" r="18" stroke="#28d8b0" stroke-width="1.4" opacity=".5"/>
+              <circle cx="20" cy="20" r="11" stroke="#28d8b0" stroke-width="1.4"/>
+              <circle cx="20" cy="20" r="3.4" fill="#28d8b0"/>
+              <path d="M20 2v8M20 30v8M2 20h8M30 20h8" stroke="#ffba44" stroke-width="1.4"/>
             </svg>
           </span>
           <span class="brand-txt">BHNT<small>HACK &amp; TELL</small></span>
         </a>
         <p>A monthly(ish) hacker show-and-tell, broadcasting from c-base since 2012.</p>
-        <div class="ascii">  /\\  BHNT
+        <div class="ascii" aria-hidden="true">  /\\  BHNT
  /  \\  //  transmitting
 /____\\//   from sol-3</div>
       </div>
       <div class="foot-col">
         <h4>Frequencies</h4>
-        <a href="https://bsky.app/profile/bhnt.c-base.org" target="_blank" rel="noopener"><span class="ar">↗</span> BlueSky</a>
-        <a href="https://chaos.social/@BHNT" target="_blank" rel="noopener"><span class="ar">↗</span> Mastodon</a>
-        <a href="https://matrix.to/#/#bhnt:c-base.org" target="_blank" rel="noopener"><span class="ar">↗</span> Matrix</a>
-        <a href="https://github.com/berlin-hack-and-tell/bhnt.c-base.org" target="_blank" rel="noopener"><span class="ar">↗</span> GitHub</a>
+        <a href="https://bsky.app/profile/bhnt.c-base.org" target="_blank" rel="noopener"><span class="ar" aria-hidden="true">↗</span> BlueSky</a>
+        <a href="https://chaos.social/@BHNT" target="_blank" rel="noopener"><span class="ar" aria-hidden="true">↗</span> Mastodon</a>
+        <a href="https://matrix.to/#/#bhnt:c-base.org" target="_blank" rel="noopener"><span class="ar" aria-hidden="true">↗</span> Matrix</a>
+        <a href="https://github.com/berlin-hack-and-tell/bhnt.c-base.org" target="_blank" rel="noopener"><span class="ar" aria-hidden="true">↗</span> GitHub</a>
       </div>
       <div class="foot-col">
         <h4>Station</h4>
@@ -417,7 +421,7 @@ clock(); setInterval(clock,1000);
       '<span class="lr-num">#'+e[0]+'</span>'+
       '<span class="lr-date">'+fmtDate(e[1])+'</span>'+
       '<span class="lr-title">'+e[2]+'</span>'+
-      '<span class="lr-arrow">→</span></a>';
+      '<span class="lr-arrow" aria-hidden="true">→</span></a>';
   }
 
   rcTotal.textContent = pad3(EVENTS.length);
@@ -467,7 +471,7 @@ clock(); setInterval(clock,1000);
   renderer.setClearColor(0x000000, 0);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
 
-  var CYAN = 0x4fe0c8, AMBER = 0xffb43d;
+  var CYAN = 0x28d8b0, AMBER = 0xffba44;
   var core = new THREE.Group();
   scene.add(core);
 
@@ -489,7 +493,7 @@ clock(); setInterval(clock,1000);
   // vertex nodes
   var nodeGeo = new THREE.BufferGeometry();
   nodeGeo.setAttribute('position', icoGeo.getAttribute('position').clone());
-  var nodes = new THREE.Points(nodeGeo, new THREE.PointsMaterial({color:0x8af7e6, size:0.05, transparent:true, opacity:0.85}));
+  var nodes = new THREE.Points(nodeGeo, new THREE.PointsMaterial({color:0x5ef0d5, size:0.05, transparent:true, opacity:0.85}));
   core.add(nodes);
 
   // --- orbital rings ---
@@ -522,7 +526,7 @@ clock(); setInterval(clock,1000);
   }
   var starGeo = new THREE.BufferGeometry();
   starGeo.setAttribute('position', new THREE.BufferAttribute(sPos,3));
-  var stars = new THREE.Points(starGeo, new THREE.PointsMaterial({color:0xbfeee6, size:0.07, transparent:true, opacity:0.55}));
+  var stars = new THREE.Points(starGeo, new THREE.PointsMaterial({color:0xa0e8dc, size:0.07, transparent:true, opacity:0.55}));
   scene.add(stars);
 
   // --- interaction / parallax ---
