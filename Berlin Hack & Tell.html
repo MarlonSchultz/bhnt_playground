@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Berlin Hack &amp; Tell — c-base</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="bg-fx" aria-hidden="true">
+  <div class="bg-glow"></div>
+  <div class="bg-glow amber"></div>
+  <div class="bg-grid"></div>
+</div>
+<div class="scanlines" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<!-- status bar -->
+<div class="statusbar">
+  <div class="wrap">
+    <span><span class="live-dot"></span><b>STATION ONLINE</b></span>
+    <span>52.5099°N · 13.4203°E</span>
+    <span>BERLIN / SOL-3</span>
+    <div class="sb-right">
+      <span>EST. 2012</span>
+      <span id="sb-clock">--:--:-- CET</span>
+    </div>
+  </div>
+</div>
+
+<!-- nav -->
+<nav class="hud">
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <span class="brand-mark">
+        <svg viewBox="0 0 40 40" fill="none">
+          <circle cx="20" cy="20" r="18" stroke="#4fe0c8" stroke-width="1.4" opacity=".5"/>
+          <circle cx="20" cy="20" r="11" stroke="#4fe0c8" stroke-width="1.4"/>
+          <circle cx="20" cy="20" r="3.4" fill="#4fe0c8"/>
+          <path d="M20 2v8M20 30v8M2 20h8M30 20h8" stroke="#ffb43d" stroke-width="1.4"/>
+        </svg>
+      </span>
+      <span class="brand-txt">BHNT<small>HACK &amp; TELL</small></span>
+    </a>
+    <div class="nav-links">
+      <a href="#format">Format</a>
+      <a href="#how">How it works</a>
+      <a href="#archive">Archive</a>
+    </div>
+    <a class="btn amber nav-cta" href="#format">Bring a hack →</a>
+  </div>
+</nav>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero" id="next" style="padding-top:48px">
+    <div class="wrap hero-grid">
+      <!-- console -->
+      <div class="frame console">
+        <div class="console-bar">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="path mono">bhnt@c-base: ~/show-and-tell</span>
+        </div>
+        <div class="console-body">
+          <div class="boot mono" id="boot"></div>
+          <h1 class="hero-title">Berlin Hack <span class="amp">&amp;</span> Tell</h1>
+          <p class="hero-sub">Eight hackers. Five minutes each. One crashed space station beneath Berlin. A monthly(ish) show-and-tell of half-finished side projects, glorious hacks and beautiful disasters at <a href="https://c-base.org" target="_blank" rel="noopener">c-base</a> — every(ish) last Tuesday.</p>
+          <div class="hero-cta">
+            <a class="btn" href="#format">See the format</a>
+            <a class="btn ghost" href="#archive">Browse 100+ hacks</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- station viewport: live 3D core -->
+      <div class="frame viewport">
+        <canvas id="station-canvas" class="vp-canvas"></canvas>
+        <div class="vp-reticle" aria-hidden="true"></div>
+        <div class="vp-cross" aria-hidden="true"></div>
+        <div class="vp-bar">
+          <span class="tag">// station core</span>
+          <span><span class="live-dot"></span>TRACKING</span>
+        </div>
+        <div class="vp-readout">
+          STRUCTURE&nbsp;&nbsp;<b>c-base</b><br/>
+          DEPTH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>−16m</b> &middot; spree<br/>
+          STATUS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>crashed / online</b>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMAT -->
+  <section id="format">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="idx">// 01 — THE FORMAT</span>
+          <h2>8 slots. First hack, first served.</h2>
+        </div>
+        <p>No committee, no curation, no slides required. Show up, grab a slot at the door, plug in.</p>
+      </div>
+      <div class="format-top">
+        <div class="frame spec">
+          <div class="big">5m<small> demo</small></div>
+          <h3>Show the thing</h3>
+          <p>Five minutes to demo your hack live. Bugs and all — especially the bugs.</p>
+        </div>
+        <div class="frame spec">
+          <div class="big">5m<small> Q&amp;A</small></div>
+          <h3>Then the room digs in</h3>
+          <p>Five minutes of questions, heckles and "wait, how did you—?" from the audience.</p>
+        </div>
+        <div class="frame spec">
+          <div class="big">8<small>× slots</small></div>
+          <h3>Dynamically allocated</h3>
+          <p>Eight slots filled live on the night. Get there early if you want to present.</p>
+        </div>
+      </div>
+      <div class="slots" id="slots"></div>
+      <div class="format-note">Slot allocation opens when the doors do — <b>19:00</b>, last Tuesday(ish) of the month. Anything goes: code, hardware, a spreadsheet that does something cursed.</div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how" style="padding-top:10px">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="idx">// 02 — MISSION BRIEFING</span>
+          <h2>How to attend</h2>
+        </div>
+        <p>Free, open, and friendly to first-timers. You don't have to present to come.</p>
+      </div>
+      <div class="how">
+        <div class="frame how-card">
+          <div class="k">When</div>
+          <div class="v">Last Tuesday(ish)</div>
+          <div class="d">Monthly, more or less. Doors at 19:00. Check the next transmission up top for the exact date.</div>
+        </div>
+        <div class="frame how-card">
+          <div class="k">Where</div>
+          <div class="v">c-base station</div>
+          <div class="d">Rungestraße 20, 10179 Berlin. The legendary crashed space station on the Spree.</div>
+        </div>
+        <div class="frame how-card">
+          <div class="k">What to bring</div>
+          <div class="v">A hack</div>
+          <div class="d">Or just yourself. Side projects, experiments and noble failures all welcome. Laptop optional.</div>
+        </div>
+        <div class="frame how-card">
+          <div class="k">Cost</div>
+          <div class="v">Free entry</div>
+          <div class="d">Bring a few coins for Club-Mate and the bar. Donations to the station keep the lights on.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARCHIVE -->
+  <section id="archive">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="idx">// 03 — TRANSMISSION LOG</span>
+          <h2>The archive</h2>
+        </div>
+        <p>Every Berlin Hack &amp; Tell since 2012. Search by name, number or year.</p>
+      </div>
+      <div class="archive-head">
+        <div class="search">
+          <span class="si">⌕</span>
+          <input id="search" type="text" placeholder="search the log…  e.g. 'hackgpt', 2019, #100" autocomplete="off" spellcheck="false" />
+        </div>
+        <div class="count-readout"><b id="rc">000</b> / <span id="rc-total">000</span> transmissions</div>
+      </div>
+      <div class="frame">
+        <div class="log" id="log"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="#top" style="margin-bottom:0">
+          <span class="brand-mark">
+            <svg viewBox="0 0 40 40" fill="none">
+              <circle cx="20" cy="20" r="18" stroke="#4fe0c8" stroke-width="1.4" opacity=".5"/>
+              <circle cx="20" cy="20" r="11" stroke="#4fe0c8" stroke-width="1.4"/>
+              <circle cx="20" cy="20" r="3.4" fill="#4fe0c8"/>
+              <path d="M20 2v8M20 30v8M2 20h8M30 20h8" stroke="#ffb43d" stroke-width="1.4"/>
+            </svg>
+          </span>
+          <span class="brand-txt">BHNT<small>HACK &amp; TELL</small></span>
+        </a>
+        <p>A monthly(ish) hacker show-and-tell, broadcasting from c-base since 2012.</p>
+        <div class="ascii">  /\\  BHNT
+ /  \\  //  transmitting
+/____\\//   from sol-3</div>
+      </div>
+      <div class="foot-col">
+        <h4>Frequencies</h4>
+        <a href="https://bsky.app/profile/bhnt.c-base.org" target="_blank" rel="noopener"><span class="ar">↗</span> BlueSky</a>
+        <a href="https://chaos.social/@BHNT" target="_blank" rel="noopener"><span class="ar">↗</span> Mastodon</a>
+        <a href="https://matrix.to/#/#bhnt:c-base.org" target="_blank" rel="noopener"><span class="ar">↗</span> Matrix</a>
+        <a href="https://github.com/berlin-hack-and-tell/bhnt.c-base.org" target="_blank" rel="noopener"><span class="ar">↗</span> GitHub</a>
+      </div>
+      <div class="foot-col">
+        <h4>Station</h4>
+        <address class="foot-addr">
+          c-base e.V.<br/>
+          Rungestraße 20<br/>
+          10179 Berlin<br/>
+          Germany
+        </address>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2012–2026 BERLIN HACK &amp; TELL · CC-BY · NO RIGHTS RESERVED, ALL HACKS WELCOME</span>
+      <span><a href="https://c-base.org" target="_blank" rel="noopener">c-base.org</a> · made with &lt;/&gt; and Club-Mate</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------- data: every BHNT, newest first ---------- */
+var EVENTS = [
+  [112,"2026-05-26","BamBoo hacks","2026-05-26-no112-bamboo-hacks"],
+  [111,"2026-04-28","put_line(\u201CHello, Moon!\u201D)","2026-04-28-no111-hello-moon"],
+  [110,"2026-03-31","doom hacks","2026-03-31-no110-doom-hacks"],
+  [109,"2026-02-26","molten hacks","2026-02-26-no109-molten-hacks"],
+  [108,"2026-01-27","global (dis)position hacks","2026-01-27-no108-global-dis-position-hacks"],
+  [107,"2025-10-28","chaos unicorn hacks","2025-10-28-no107-chaos-unicorn-hacks"],
+  [106,"2025-09-30","30 years of c-base","2025-09-30-no106-hacks-of-30years-cbase"],
+  [105,"2025-07-29","MechaHacker","2025-07-29-no105-mechahacker"],
+  [104,"2025-05-27","Habemus Hacker","2025-05-27-no104-habemus-hacker"],
+  [103,"2025-04-29","Plutocracy (on) Signal","2025-04-29-no103-plutocracy-on-signal"],
+  [102,"2025-02-25","Gulf of hacks","2025-02-25-no102-gulf-of-hacks"],
+  [101,"2025-01-28","Singularity inauguration hacks","2025-01-28-no101-singularity-inauguration-hacks"],
+  [100,"2024-10-29","anniverCary","2024-10-29-no100-annivercary"],
+  [99,"2024-09-24","Reasoning hacks","2024-09-24-no99-reasoning-hacks"],
+  [98,"2024-08-27","Groky hacks","2024-08-27-no98-groky-hacks"],
+  [97,"2024-07-30","CrowdStruck","2024-07-30-no97-crowdstruck"],
+  [96,"2024-05-28","Portal hacks","2024-05-28-no96-portal-hacks"],
+  [95,"2024-03-26","Devin\u2019s hacks","2024-03-26-no95-devin-s-hacks"],
+  [94,"2024-02-27","Reality hacks","2024-02-27-no94-reality-hacks"],
+  [93,"2024-01-30","Unlocked hacks","2024-01-30-no93-unlocked-hacks"],
+  [92,"2023-11-28","ClosedAI hacks","2023-11-28-no92-closedai-hacks"],
+  [91,"2023-10-31","hacks of spooky times","2023-10-31-no91-hacks-of-spooky-times"],
+  [90,"2023-09-26","post utopia hacks","2023-09-26-no90-post-utopia-hacks"],
+  [89,"2023-07-25","camping hacks","2023-07-25-no89-camping-hacks"],
+  [88,"2023-04-25","sHACKa","2023-04-25-no88-shacka"],
+  [87,"2023-03-28","Moore Hacks","2023-03-28-no87-moore-hacks"],
+  [86,"2023-02-28","HackGPT","2023-02-28-no86-hackgpt"],
+  [85,"2023-01-31","Illuminati hacks","2023-01-31-no85-illuminati-hacks"],
+  [84,"2022-12-27","Hacks in parallel","2022-12-27-no84-hacks-in-parallel"],
+  [83,"2022-11-29","Hacks sink in","2022-11-29-no83-hacks-sink-in"],
+  [82,"2022-09-27","Panda Hacks","2022-09-27-no82-panda-hacks"],
+  [81,"2022-05-31","ReBooting BHNT","2022-05-31-no81-rebooting-bhnt"],
+  [80,"2021-10-26","0b10G","2021-10-26-no80-0b10G"],
+  [79,"2021-08-31","LockDown Hacks","2021-08-31-no79-lockdown-hacks"],
+  [78,"2020-02-25","Flash Your Hacks","2020-02-25-no78-flash-your-hacks"],
+  [77,"2020-01-28","Hacking 2020","2020-01-28-no77-hacking-2020"],
+  [76,"2019-11-26","CyberHacks","2019-11-26-no76-cyber-hacks"],
+  [75,"2019-10-29","Open Hard[ware] Hacks","2019-10-29-no75-open-hardware-hacks"],
+  [74,"2019-09-24","Post CCCamp19 hacks","2019-09-24-no74-post-cccamp19-hacks"],
+  [73,"2019-07-30","Libre - not Libra","2019-07-30-no73-libre-not-libra"],
+  [72,"2019-06-25","Off By One++","2019-06-25-no72-off-by-one"],
+  [71,"2019-05-28","Electing Hacks","2019-05-28-no71-electing-hacks"],
+  [70,"2019-04-30","Black Hole & Tell","2019-04-30-black-hold-and-tell"],
+  [69,"2019-03-26","Upload your hacks","2019-03-26-no69-upload-your-hacks"],
+  [68,"2019-02-26","De-obfuscate your hacks","2019-02-26-no68-de-obfuscate-your-hacks"],
+  [67,"2019-01-29","Hacking Memories","2019-01-29-no67-hacking-memories"],
+  [66,"2018-11-27","Every Hack is a Target","2018-11-27-no66-every-hack-is-a-target"],
+  [65,"2018-09-25","Dear Moon Hacks","2018-09-25-no65-dear-moon-hacks"],
+  [64,"2018-08-28","Hackable","2018-08-28-no64-hackable"],
+  [63,"2018-07-31","Meltdown","2018-07-31-no63-meltdown"],
+  [62,"2018-06-26","Summer-ish hacks","2018-06-26-no62-summer-ish-hacks"],
+  [61,"2018-05-29","Revolutionary May Hacks","2018-05-29-no61-revolutionary-may-hacks"],
+  [60,"2018-04-24","Hacker Hearing","2018-04-24-no60-hacker-hearing"],
+  [59,"2018-03-27","Stephen Hacking","2018-03-27-no59-stephen-hacking"],
+  [58,"2018-02-27","Hacking Heavy","2018-02-27-no58-hacking-heavy"],
+  [57,"2018-01-30","Off by one","2018-01-30-no57-off-by-one"],
+  [56,"2017-10-31","Hackoween","2017-10-31-no56-hackoween"],
+  [55,"2017-08-29","Post Eclipse Hacking","2017-08-29-no55-post-eclipse-hacking"],
+  [54,"2017-07-25","itshappening.gif","2017-07-25-no54-itshappeninggif"],
+  [53,"2017-06-27","The Hackening","2017-06-27-no53-the-hackening"],
+  [52,"2017-05-30","bhnt.titles[51]","2017-05-30-no52-bhnttitles51"],
+  [51,"2017-04-25","Twice as good!","2017-04-25-no51-twice-as-good"],
+  [50,"2017-02-28","Tracing rays","2017-02-28-no0x0032-tracing-rays"],
+  [49,"2017-01-31","Hello 2017!","2017-01-31-no49-hello-2017"],
+  [48,"2016-11-29","bye forever, 2016","2016-11-29-no48-bye-forever-2016"],
+  [47,"2016-10-25","October spooks!","2016-10-25-no47-october-spooks"],
+  [46,"2016-09-27","Autumn Calling","2016-09-27-no46-autumn-calling"],
+  [45,"2016-05-31","#summerhackertime","2016-05-31-no45-summerhackertime"],
+  [44,"2016-04-26","Springtime hacking","2016-04-26-no44-springtime-hacking"],
+  [43,"2016-03-29","Easter Heggs","2016-03-29-no43-easter-heggs"],
+  [42,"2016-02-23","Hacker\u2019s Guide to the Galaxy","2016-02-23-no42-hackers-guide-to-the-galaxy"],
+  [41,"2016-01-26","start(2016)","2016-01-26-no41-start2016"],
+  [40,"2015-11-24","LAST MEETUP FOR 2015","2015-11-24-no40-last-meetup-for-2015"],
+  [39,"2015-10-27","Hacktoberfest","2015-10-27-no39-hacktoberfest"],
+  [38,"2015-09-29","School\u2019s back on!","2015-09-29-no38-schools-back-on"],
+  [37,"2015-07-28","July Andrews","2015-07-28-no37-july-andrews"],
+  [36,"2015-06-30","Diving into code","2015-06-30-no36-diving-into-code"],
+  [35,"2015-05-26","Hack-una May-tata","2015-05-26-no35-hack-una-may-tata"],
+  [34,"2015-04-28","April (fools) hacks!","2015-04-28-no34-april-fools-hacks"],
+  [33,"2015-03-31","Spring season is open!","2015-03-31-no33-spring-season-is-open"],
+  [32,"2015-02-24","Carnival is gone!","2015-02-24-no32-carnival-is-gone"],
+  [31,"2015-01-27","REBOOT","2015-01-27-no31-reboot"],
+  [30,"2014-08-26","BACK FROM THE DEAD","2014-08-26-no30-back-from-the-dead"],
+  [29,"2014-04-29","Back in hack!","2014-04-29-no29-back-in-hack"],
+  [28,"2014-02-25","Winter?? hacks","2014-02-25-no28-winter-hacks"],
+  [27,"2014-01-28","new Year();","2014-01-28-no27-new-year"],
+  [26,"2013-11-26","Best of 2013 (?)","2013-11-26-no26-best-of-2013"],
+  [25,"2013-10-29","Almost spooky","2013-10-29-no25-almost-spooky"],
+  [24,"2013-09-24","School\u2019s on - Time to learn new tricks","2013-09-24-no24-schools-on-time-to-learn-new-tricks"],
+  [23,"2013-08-27","Vacation is over, lets get back to code!","2013-08-27-no23-vacation-is-over-lets-get-back-to-code"],
+  [22,"2013-06-25","Summer Hacks","2013-06-25-no22-summer-hacks"],
+  [21,"2013-05-28","Let the summer begin!","2013-05-28-no21-let-the-summer-begin"],
+  [20,"2013-04-30","Return of Spring","2013-04-30-no20-return-of-spring"],
+  [19,"2013-03-25","Twice as good","2013-03-25-no19-twice-as-good"],
+  [18,"2013-01-29","BWIWAB","2013-01-29-no18-bwiwab"],
+  [17,"2012-12-11","(Almost) Christmas Party","2012-12-11-no17-almost-christmas-party"],
+  [16,"2012-10-30","Tobi\u2019s Farewell Party","2012-10-30-no16-tobis-farewell-party"],
+  [15,"2012-10-02","BHNT #15","2012-10-02-no15"],
+  [14,"2012-08-24","Trip to Campus Party","2012-08-24-no14-trip-to-campus-party"],
+  [13,"2012-07-31","lucky number 13!","2012-07-31-no13-lucky-number-13"]
+];
+var BASE = "https://bhnt.c-base.org/";
+
+/* ---------- shared date helpers ---------- */
+var MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+var DAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+function pad(n){return (n<10?"0":"")+n;}
+
+/* ---------- station clock ---------- */
+function clock(){
+  try{
+    var t = new Date().toLocaleTimeString('en-GB',{timeZone:'Europe/Berlin',hour12:false});
+    document.getElementById('sb-clock').textContent = t + " CET";
+  }catch(e){
+    document.getElementById('sb-clock').textContent = new Date().toLocaleTimeString('en-GB',{hour12:false}) + " LOC";
+  }
+}
+clock(); setInterval(clock,1000);
+
+/* ---------- boot typing ---------- */
+(function(){
+  var el = document.getElementById('boot');
+  var lines = [
+    {t:"$ ./mount /dev/c-base", c:""},
+    {t:"  station link established ........ ", c:"ok", suffix:"OK"},
+    {t:"  loading transmission log ...... ", c:"warn", suffix:"112"}
+  ];
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce){
+    el.innerHTML = lines.map(function(l){return l.t + (l.suffix?'<span class="'+l.c+'">'+l.suffix+'</span>':'');}).join('<br>');
+    return;
+  }
+  var li=0, ci=0, html="";
+  function step(){
+    if (li>=lines.length){ return; }
+    var line = lines[li];
+    if (ci < line.t.length){
+      html_cur = line.t.slice(0,ci+1);
+      render();
+      ci++;
+      setTimeout(step, 14);
+    } else {
+      // finish line
+      finished += line.t + (line.suffix?'<span class="'+line.c+'">'+line.suffix+'</span>':'') + '<br>';
+      html_cur=""; ci=0; li++;
+      setTimeout(step, 90);
+    }
+  }
+  var finished="", html_cur="";
+  function render(){
+    el.innerHTML = finished + html_cur + '<span class="cursor"></span>';
+  }
+  render();
+  setTimeout(step, 250);
+})();
+
+/* ---------- slots ---------- */
+(function(){
+  var wrap = document.getElementById('slots');
+  var html="";
+  for (var i=1;i<=8;i++){
+    html += '<div class="slot"><div class="s-num">SLOT '+pad(i)+'</div><div class="s-ico">'+pad(i)+'</div><div class="s-state">// open</div></div>';
+  }
+  wrap.innerHTML = html;
+})();
+
+/* ---------- archive log + search ---------- */
+(function(){
+  var log = document.getElementById('log');
+  var search = document.getElementById('search');
+  var rc = document.getElementById('rc');
+  var rcTotal = document.getElementById('rc-total');
+
+  function fmtDate(iso){
+    var p = iso.split('-');
+    return p[2]+" "+MONTHS[parseInt(p[1],10)-1]+" "+p[0];
+  }
+  function pad3(n){ n=String(n); while(n.length<3) n="0"+n; return n; }
+
+  function rowHTML(e, isUp){
+    var href = e[3] ? BASE+e[3] : "#next";
+    var tgt = e[3] ? ' target="_blank" rel="noopener"' : '';
+    return '<a class="log-row'+(isUp?' upcoming':'')+'" href="'+href+'"'+tgt+'>'+
+      '<span class="lr-num">#'+e[0]+'</span>'+
+      '<span class="lr-date">'+fmtDate(e[1])+'</span>'+
+      '<span class="lr-title">'+e[2]+'</span>'+
+      '<span class="lr-arrow">→</span></a>';
+  }
+
+  rcTotal.textContent = pad3(EVENTS.length);
+
+  function render(q){
+    q = (q||"").trim().toLowerCase();
+    var out="", shown=0;
+    var list = [];
+    // include upcoming at top when matching
+    var all = EVENTS.map(function(e){return {e:e,up:false};});
+    for (var i=0;i<all.length;i++){
+      var e = all[i].e;
+      var hay = ("#"+e[0]+" "+e[0]+" "+e[1]+" "+e[2]).toLowerCase();
+      if (!q || hay.indexOf(q)>-1){ out += rowHTML(e, all[i].up); shown++; }
+    }
+    if (shown===0){
+      out = '<div class="no-results">// no transmissions match "'+ (q.replace(/</g,'&lt;')) +'" — try a number, year, or title</div>';
+    }
+    log.innerHTML = out;
+    rc.textContent = pad3(shown);
+  }
+  render("");
+  var deb;
+  search.addEventListener('input', function(){
+    clearTimeout(deb);
+    deb = setTimeout(function(){ render(search.value); }, 60);
+  });
+})();
+</script>
+
+<!-- three.js station core -->
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+<script>
+(function(){
+  var canvas = document.getElementById('station-canvas');
+  if (!canvas || !window.THREE){ return; }
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+  camera.position.z = 8;
+
+  var renderer;
+  try{
+    renderer = new THREE.WebGLRenderer({canvas:canvas, alpha:true, antialias:true, preserveDrawingBuffer:true});
+  }catch(e){ return; }
+  renderer.setClearColor(0x000000, 0);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
+
+  var CYAN = 0x4fe0c8, AMBER = 0xffb43d;
+  var core = new THREE.Group();
+  scene.add(core);
+
+  // --- station core: geodesic wireframe sphere ---
+  var icoGeo = new THREE.IcosahedronGeometry(1.7, 2);
+  var wire = new THREE.LineSegments(
+    new THREE.WireframeGeometry(icoGeo),
+    new THREE.LineBasicMaterial({color:CYAN, transparent:true, opacity:0.42})
+  );
+  core.add(wire);
+
+  // inner solid faint shell
+  var shell = new THREE.Mesh(
+    new THREE.IcosahedronGeometry(1.66, 2),
+    new THREE.MeshBasicMaterial({color:CYAN, transparent:true, opacity:0.05})
+  );
+  core.add(shell);
+
+  // vertex nodes
+  var nodeGeo = new THREE.BufferGeometry();
+  nodeGeo.setAttribute('position', icoGeo.getAttribute('position').clone());
+  var nodes = new THREE.Points(nodeGeo, new THREE.PointsMaterial({color:0x8af7e6, size:0.05, transparent:true, opacity:0.85}));
+  core.add(nodes);
+
+  // --- orbital rings ---
+  function ring(r, tilt, color, op){
+    var g = new THREE.RingGeometry(r-0.012, r+0.012, 128);
+    var m = new THREE.MeshBasicMaterial({color:color, transparent:true, opacity:op, side:THREE.DoubleSide});
+    var mesh = new THREE.Mesh(g, m);
+    mesh.rotation.x = tilt;
+    return mesh;
+  }
+  var ringGroup = new THREE.Group();
+  ringGroup.add(ring(2.45, Math.PI/2.2, CYAN, 0.32));
+  ringGroup.add(ring(2.8, Math.PI/2.6, AMBER, 0.18));
+  core.add(ringGroup);
+
+  // a satellite blip on the ring
+  var blip = new THREE.Mesh(new THREE.SphereGeometry(0.05,12,12), new THREE.MeshBasicMaterial({color:AMBER}));
+  ringGroup.add(blip);
+
+  // --- starfield ---
+  var STARS = 520;
+  var sPos = new Float32Array(STARS*3);
+  for (var i=0;i<STARS;i++){
+    var rr = 9 + Math.random()*16;
+    var th = Math.random()*Math.PI*2;
+    var ph = Math.acos(2*Math.random()-1);
+    sPos[i*3]   = rr*Math.sin(ph)*Math.cos(th);
+    sPos[i*3+1] = rr*Math.sin(ph)*Math.sin(th);
+    sPos[i*3+2] = rr*Math.cos(ph) - 6;
+  }
+  var starGeo = new THREE.BufferGeometry();
+  starGeo.setAttribute('position', new THREE.BufferAttribute(sPos,3));
+  var stars = new THREE.Points(starGeo, new THREE.PointsMaterial({color:0xbfeee6, size:0.07, transparent:true, opacity:0.55}));
+  scene.add(stars);
+
+  // --- interaction / parallax ---
+  var tgtX=0, tgtY=0, curX=0, curY=0;
+  window.addEventListener('pointermove', function(e){
+    var r = canvas.getBoundingClientRect();
+    tgtX = ((e.clientX - r.left)/r.width - 0.5);
+    tgtY = ((e.clientY - r.top)/r.height - 0.5);
+  }, {passive:true});
+
+  function resize(){
+    var w = canvas.clientWidth || 1, h = canvas.clientHeight || 1;
+    camera.aspect = w/h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h, false);
+  }
+  window.addEventListener('resize', resize);
+  if (window.ResizeObserver){ new ResizeObserver(resize).observe(canvas); }
+  resize();
+
+  var t0 = performance.now();
+  function frame(now){
+    var t = (now - t0)/1000;
+    curX += (tgtX - curX)*0.05;
+    curY += (tgtY - curY)*0.05;
+
+    core.rotation.y = t*0.12 + curX*0.6;
+    core.rotation.x = -0.12 + curY*0.45;
+    ringGroup.rotation.z = t*0.22;
+    nodes.rotation.y = -t*0.05;
+
+    // satellite travels along the primary ring
+    var ang = t*0.6;
+    blip.position.set(Math.cos(ang)*2.45, 0, Math.sin(ang)*2.45);
+
+    stars.rotation.y = t*0.012;
+
+    var op = 0.36 + 0.12*Math.sin(t*1.4);
+    wire.material.opacity = op;
+    core.scale.setScalar(1 + 0.012*Math.sin(t*1.1));
+
+    renderer.render(scene, camera);
+    if (!reduce) requestAnimationFrame(frame);
+  }
+
+  requestAnimationFrame(function(n){
+    frame(n);
+    canvas.classList.add('ready');
+  });
+})();
+</script>
+</body>
+</html>
